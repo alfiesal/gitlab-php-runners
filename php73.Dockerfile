@@ -23,8 +23,6 @@ RUN npm install -g pngquant-bin --unsafe-perm --allow-root &&\
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-RUN composer global require hirak/prestissimo
-
 RUN curl https://phar.phpunit.de/phpunit-8.2.3.phar -L > phpunit.phar \
   && chmod +x phpunit.phar \
   && mv phpunit.phar /usr/local/bin/phpunit \

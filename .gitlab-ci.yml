@@ -5,17 +5,16 @@ stages:
 
 .build:
   stage: build
-  before_script:
-    - export IMAGE_TAG=${CI_COMMIT_REF_SLUG}_${CI_COMMIT_SHA:0:8}
   script:
     - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY
-    - docker build -t ${CI_REGISTRY_IMAGE} .
-    - docker push ${CI_REGISTRY_IMAGE}
+    - docker build -t ${CI_REGISTRY_IMAGE}:${IMAGE_TAG} -f ${IMAGE_TAG}.Dockerfile --build-arg DEPLOY_KEY="${DEPLOY_KEY}" .
+    - docker push ${CI_REGISTRY_IMAGE}:${IMAGE_TAG}
   services:
     - docker:dind
   only:
     refs:
       - master
+      - ci
 
 build php74:
   extends: .build
